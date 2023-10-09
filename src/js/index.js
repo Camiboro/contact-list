@@ -1,16 +1,22 @@
-//import react into the bundle
-import React from 'react'
-import {createRoot} from 'react-dom/client'
+import React, { useEffect, useContext } from 'react';
+import { Context } from './src/js/store/appContext.js';
+import TarjetaDeContacto from './TarjetaDeContacto'; 
 
-//include your index.scss file into the bundle
-import "../styles/index.css";
+function Contacto() {
+    const { store, actions } = useContext(Context);
 
-//import your own components
-import Layout from './layout.js'
+    useEffect(() => {
+        actions.loadContacts();
+    }, []);
 
-//
-const root = createRoot(document.querySelector("#app"))
+    return (
+        <div>
+            {store.contacts.map(contact => <TarjetaDeContacto key={contact.id} data={contact} />)}
+            <Link to="/addcontact">
+                <button>Agregar nuevo contacto</button>
+            </Link>
+        </div>
+    );
+}
 
-//render your react application
-root.render(<Layout/>)
-
+export default Contacto;
